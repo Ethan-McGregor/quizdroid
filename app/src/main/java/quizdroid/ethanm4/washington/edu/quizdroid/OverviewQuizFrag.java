@@ -40,7 +40,7 @@ public class OverviewQuizFrag extends Fragment {
         TextView questionCount = (TextView) view.findViewById(R.id.count);
         TextView discription = (TextView) view.findViewById(R.id.dis);
         discription.setText(dis);
-        questionCount.setText(count + "");
+        questionCount.setText("Question Count: " + count);
 
         return view;
     }

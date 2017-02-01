@@ -67,7 +67,6 @@ public class OverviewQuiz extends AppCompatActivity {
 
         });
 
-        Log.v("HERE","start");
         Bundle args = new Bundle();
         args.putString("dis", dis);
         args.putInt("count", count);
