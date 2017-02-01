@@ -18,23 +18,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:text="What is this quiz about? "
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dis" />
+            android:id="@+id/fragment_placeholder"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_height="248dp">
 
-        <TextView
-            android:text="Question Count: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/qCount" />
+        </FrameLayout>
 
         <Button
-            android:text="Begin!"
+            android:text="Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/btnBegin"
-            android:onClick="onClick" />
+            tools:textSize="36sp"
+            android:textStyle="normal|bold|italic" />
+
     </LinearLayout>
 </RelativeLayout>
