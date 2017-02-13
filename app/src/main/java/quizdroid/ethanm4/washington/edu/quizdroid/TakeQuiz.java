@@ -28,9 +28,6 @@ public class TakeQuiz extends AppCompatActivity implements Serializable{
         RadioButton rFour = (RadioButton) findViewById(R.id.aFour);
         TextView qOne = (TextView) findViewById(R.id.qOne);
 
-
-
-
                 qOne.setText("what is 1 + 1?");
                 rOne.setText("3");
                 rTwo.setText("2");

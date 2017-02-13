@@ -21,6 +21,9 @@ public class Quiz implements Serializable {
     public Question getQuestion() {
         return questions.get(0);
     }
+    public List<Question> getQuestions() {
+        return questions;
+    }
 
     public void addQuestion(Question question) {
         questions.add(question);
@@ -30,6 +33,7 @@ public class Quiz implements Serializable {
         this.description = description;
         this.questionCount = questionCount;
     }
+
 
     public int getQuestionCount(){
         return questionCount;
