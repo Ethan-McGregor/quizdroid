@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity  {
             System.out.println("getView " + position + " " + convertView);
             if (convertView ==null) {
                 convertView = mInflater.inflate(R.layout.layout_row, parent, false);
-                //grabs all of the views
-                //ImageView image = (ImageView) convertView.findViewById(R.id.list_image_icon);
+                ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
                 TextView title = (TextView) convertView.findViewById(R.id.title);
                 TextView description = (TextView) convertView.findViewById(R.id.dis);
                 //sets the views
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity  {
                 title.setText(topic.getTitle());
                 description.setText(topic.getDescription());
 
-               // image.setImageResource(topic.getIcon());
+               image.setImageResource(topic.getIcon());
             }
             return convertView;
 

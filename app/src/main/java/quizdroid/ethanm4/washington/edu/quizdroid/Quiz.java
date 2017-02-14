@@ -1,5 +1,8 @@
 package quizdroid.ethanm4.washington.edu.quizdroid;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +18,18 @@ public class Quiz implements Serializable {
     private String longDis;
     private String description;
     private int questionCount;
+    private int icon;
+//    private ImageView icon;
     private ArrayList<Question> questions = new ArrayList<Question>();
 
     public Quiz(){
         description = "";
         questionCount = 0;
     }
-    public Quiz(String title, String discription){
+    public Quiz(String title, String discription, int icon){
         description = discription;
         this.title = title;
+        this.icon = icon;
     }
     public Question getQuestion() {
         return questions.get(0);
@@ -51,6 +57,9 @@ public class Quiz implements Serializable {
     }
     public String getTitle(){
         return title;
+    }
+    public int getIcon(){
+        return icon;
     }
 
 }
