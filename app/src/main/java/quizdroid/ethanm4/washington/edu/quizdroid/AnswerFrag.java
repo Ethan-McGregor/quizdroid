@@ -28,18 +28,13 @@ public class AnswerFrag extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_answer, container, false);
 
 
-        String a = getArguments().getString("answer");
-        String c = getArguments().getString("cAnswer");
+        String a = getArguments().getString("numCorrect");
+        String c = getArguments().getString("total");
         TextView answer = (TextView) view.findViewById(R.id.answer);
         TextView canswer = (TextView) view.findViewById(R.id.correctAnswer);
         TextView score = (TextView) view.findViewById(R.id.score);
-        answer.setText("Your answer: " + a);
-        canswer.setText("Correct answer: " + c);
-        if(a.equals(c)){
-            score.setText("Score: 1/1");
-        }else{
-            score.setText("Score: 0/1");
-        }
+
+        score.setText(a + "/" + c);
 
 
         return view;

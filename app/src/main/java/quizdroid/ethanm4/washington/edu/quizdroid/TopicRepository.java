@@ -8,10 +8,7 @@ import java.util.List;
 
 public interface TopicRepository {
     public void createTopics();
-
-    public List<Question> getQuestions(Quiz t);
-
+    public List<Quiz> getQuizes();
     public void updateTopic(Quiz t, Question q);
-
     public void deleteTopic(Quiz t);
 }

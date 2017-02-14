@@ -19,62 +19,100 @@ public class OverviewQuiz extends AppCompatActivity {
     private String answer;
     private String correctAnswer;
     private boolean back;
-    TakeQuizFrag n = new TakeQuizFrag();
+    private int questionCount;
+    private boolean quizDone = true;
+    private int numCorrect;
+    private  Button btnFragment;
+    TakeQuizFrag tq = new TakeQuizFrag();
+    OverviewQuizFrag oq = new OverviewQuizFrag();
     Quiz temp;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_quiz);
-        temp  = (Quiz) getIntent().getSerializableExtra("quiz");
+        //Intent vars
+        temp  = (Quiz) getIntent().getSerializableExtra("topic");
         dis = temp.getDescription();
-        count = temp.getQuestionCount();
-        Button btnFragment = (Button)findViewById(R.id.btnBegin);
+        count = temp.getQuestions().size();
+        questionCount = 0;
+
+        //Button
+         btnFragment = (Button)findViewById(R.id.btnBegin);
+        btnFragment.setText("Continue");
+
+        //initial screen
+        Bundle args = new Bundle();
+        args.putString("dis", dis);
+
+        args.putInt("count", count);
+        overviewQuizFragOn = true;
+        OverviewQuizFrag start = new OverviewQuizFrag();
+        renderFrag(args,start);
+        overviewQuizFragOn = true;
+
+
         btnFragment.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                fragToDisplay = null;
-                if(overviewQuizFragOn){
-                    fragToDisplay = n;
-                    overviewQuizFragOn = false;
-                    takeQuizFragOn = true;
+                if(back){
+                    Intent intent = new Intent(OverviewQuiz.this, MainActivity.class);
+                    startActivity(intent);
+                }
 
-                }else if(takeQuizFragOn){
-                    answer= n.getAnswer();
-                    correctAnswer = n.getCorrectAnswer();
-                    fragToDisplay = new AnswerFrag();
+                if(questionCount >= 1 && questionCount <= 3){
+                    String answer = tq.getAnswer();
+                    if(answer == null){
+
+                      questionCount--;
+                    }else {
+                        if (answer.equals(temp.getQuestions().get(questionCount-1).getAnswer())) {
+                            numCorrect++;
+
+                        }
+
+                    }
+                }
+                if(questionCount < count){
+                    btnFragment.setText("Next Question");
                     Bundle args = new Bundle();
                     args.putString("answer", answer);
-                    args.putString("cAnswer", correctAnswer);
-                    fragToDisplay.setArguments(args);
-                    answerFragOn = true;
-                    takeQuizFragOn = false;
+
+                    args.putString("question", temp.getQuestions().get(questionCount).getQuestion());
+                    args.putString("one", temp.getQuestions().get(questionCount).getFakeAnswer1());
+                    args.putString("two", temp.getQuestions().get(questionCount).getFakeAnswer2());
+                    args.putString("three", temp.getQuestions().get(questionCount).getFakeAnswer3());
+                    args.putString("four", temp.getQuestions().get(questionCount).getFakeAnswer4());
+                    tq = new TakeQuizFrag();
+                    renderFrag(args,tq);
+                    questionCount++;
+                    Log.v("if",numCorrect + "");
 
                 }else{
+                    Log.v("HERE",numCorrect + "");
+
+
+                    fragToDisplay = new AnswerFrag();
+                    Bundle args = new Bundle();
+                    args.putString("numCorrect", numCorrect +"");
+                    args.putString("total", temp.getQuestions().size() +"");
+                    renderFrag(args,fragToDisplay);
                     back = true;
                 }
 
 
-                if(back){
-                    Intent intent = new Intent(OverviewQuiz.this, MainActivity.class);
-                    startActivity(intent);
-                }else {
-                    FragmentTransaction tx = getFragmentManager().beginTransaction();
-                    tx.replace(R.id.fragment_placeholder, fragToDisplay);
-                    tx.commit();
-                }
-                
+
             }
 
         });
 
-        Bundle args = new Bundle();
-        args.putString("dis", dis);
-        args.putInt("count", count);
-        overviewQuizFragOn = true;
-        OverviewQuizFrag ff = new OverviewQuizFrag();
-        ff.setArguments(args);
+
+    }
+
+    public  void renderFrag(Bundle args, android.app.Fragment frag){
+        frag.setArguments(args);
         FragmentTransaction tx = getFragmentManager().beginTransaction();
-        tx.replace(R.id.fragment_placeholder, ff);
+        tx.replace(R.id.fragment_placeholder, frag);
         tx.commit();
     }
 

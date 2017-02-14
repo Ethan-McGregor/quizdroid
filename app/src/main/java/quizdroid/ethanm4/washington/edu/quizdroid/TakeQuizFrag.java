@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,12 @@ public class TakeQuizFrag extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private String answer;
-    private String correctAnswer = "2";
+    private String correctAnswer;
+    private String question;
+    private String one;
+    private String two;
+    private String three;
+    private int rightOrWrong;
     public TakeQuizFrag() {
     }
 
@@ -30,17 +36,28 @@ public class TakeQuizFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_take_quiz, container, false);
-
+        rightOrWrong = getArguments().getInt("count");
+        correctAnswer = getArguments().getString("right");
         RadioButton rOne = (RadioButton) view.findViewById(R.id.aOne);
         RadioButton rTwo = (RadioButton) view.findViewById(R.id.aTwo);
         RadioButton rThree = (RadioButton) view.findViewById(R.id.aThree);
         RadioButton rFour = (RadioButton) view.findViewById(R.id.aFour);
         TextView qOne = (TextView) view.findViewById(R.id.qOne);
-        qOne.setText("what is 1 + 1?");
-        rOne.setText("3");
-        rTwo.setText("2");
-        rThree.setText("1.5");
-        rFour.setText("2.1");
+
+
+        String question = getArguments().getString("question");
+
+        String one = getArguments().getString("one");
+        String two = getArguments().getString("two");
+
+        String three = getArguments().getString("three");
+        String four = getArguments().getString("four");
+
+        qOne.setText(question);
+        rOne.setText(one);
+        rTwo.setText(two);
+        rThree.setText(three);
+        rFour.setText(four);
         
 View.OnClickListener buttonListener = new View.OnClickListener() {
     RadioButton rOne = (RadioButton) view.findViewById(R.id.aOne);

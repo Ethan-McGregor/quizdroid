@@ -12,21 +12,25 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="TextView"
+            android:text="You are Done!"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/score" />
+            android:textStyle="normal|bold|italic"
+            android:textSize="25sp"
+            android:id="@+id/title" />
+
+        <TextView
+            android:text="Your score is only:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/answer" />
+            android:id="@+id/score"
+            android:layout_marginLeft="20dp" />
 
-        <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/correctAnswer" />
     </LinearLayout>
 </FrameLayout>

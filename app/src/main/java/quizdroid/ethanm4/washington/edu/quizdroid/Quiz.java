@@ -10,6 +10,9 @@ import java.util.List;
 
 public class Quiz implements Serializable {
 
+    private String title;
+    private String shortDis;
+    private String longDis;
     private String description;
     private int questionCount;
     private ArrayList<Question> questions = new ArrayList<Question>();
@@ -17,6 +20,10 @@ public class Quiz implements Serializable {
     public Quiz(){
         description = "";
         questionCount = 0;
+    }
+    public Quiz(String title, String discription){
+        description = discription;
+        this.title = title;
     }
     public Question getQuestion() {
         return questions.get(0);
@@ -41,6 +48,9 @@ public class Quiz implements Serializable {
 
     public String getDescription(){
         return description;
+    }
+    public String getTitle(){
+        return title;
     }
 
 }

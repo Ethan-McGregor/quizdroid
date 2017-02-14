@@ -1,94 +1,103 @@
 package quizdroid.ethanm4.washington.edu.quizdroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity  {
+    protected QuizApp app;
+    public List<Quiz> lists = new ArrayList<Quiz>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View.OnClickListener buttonListener = new View.OnClickListener() {
-            Intent intent = new Intent(MainActivity.this, OverviewQuiz.class);
-            public void onClick(View v) {
+        app = (QuizApp)getApplication();
 
-                switch (v.getId()) {
-                    case R.id.math:
-                        Quiz math = createMath();
-                        intent.putExtra("quiz", math);
-                        break;
-                    case R.id.physics:
-                        Quiz physics = createPhysics();
-                        intent.putExtra("quiz", physics);
-                        break;
-                    case R.id.msh:
-                        Quiz msh = createMSH();
-                        intent.putExtra("quiz", msh);
-                        break;
-                    case R.id.java:
-                        Quiz java = createJava();
-                        intent.putExtra("quiz", java);
-                        break;
-                    case R.id.android:
-                        Quiz android = createAndroid();
-                        intent.putExtra("quiz", android);
-                        break;
+        lists = app.getRepo();
+
+        ListView topics = (ListView) findViewById(R.id.lin_view);
+
+        for(int i = 0; i < lists.size(); i++){
+            Log.v("HERE", i + "");
+        }
+
+        MyCustomAdapter adapter = new MyCustomAdapter();
+        topics.setAdapter(adapter);
+        AdapterView.OnItemClickListener topicClickListener = new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String topicName = parent.getItemAtPosition(position).toString();
+                Quiz topic = lists.get(position);
+                Intent topicOverview = new Intent(MainActivity.this, OverviewQuiz.class);
+                topicOverview.putExtra("topic", topic);
+                if (topicOverview.resolveActivity(getPackageManager()) != null) {
+                    startActivity(topicOverview);
                 }
-
-
-                startActivity(intent);
-
             }
         };
-
-        findViewById(R.id.math).setOnClickListener(buttonListener);
-
-        findViewById(R.id.physics).setOnClickListener(buttonListener);
-
-        findViewById(R.id.msh).setOnClickListener(buttonListener);
-        findViewById(R.id.java).setOnClickListener(buttonListener);
-        findViewById(R.id.android).setOnClickListener(buttonListener);
-
+        topics.setOnItemClickListener(topicClickListener);
 
     }
 
+    private class MyCustomAdapter extends BaseAdapter {
 
+        private List<Quiz> topics = lists;
+        private LayoutInflater mInflater;
 
-    public Quiz createMath(){
-        String description = "This is a little math quiz, it will be simple.";
-        int questionCount = 1;
-        Quiz math = new Quiz(description,questionCount);
+        public MyCustomAdapter() {
+            mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
 
-        return math;
-    }
-    public Quiz createPhysics(){
-        String description = "This is a little physics quiz, it will be simple.";
-        int questionCount = 1;
-        Quiz physics = new Quiz(description,questionCount);
-        return physics;
-    }
-    public Quiz createMSH(){
-        String description = "This is a little Marvle Super Hero quiz, it will be simple.";
-        int questionCount = 1;
-        Quiz msh = new Quiz(description,questionCount);
-        return msh;
-    }
-    public Quiz createJava(){
-        String description = "This is a little Java quiz, it will be simple.";
-        int questionCount = 1;
-        Quiz java = new Quiz(description,questionCount);
-        return java;
-    }
-    public Quiz createAndroid(){
-        String description = "This is a little android quiz, it will be simple.";
-        int questionCount = 1;
-        Quiz android = new Quiz(description,questionCount);
-        return android;
+        @Override
+        public int getCount() {
+            return topics.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return topics.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            System.out.println("getView " + position + " " + convertView);
+            if (convertView ==null) {
+                convertView = mInflater.inflate(R.layout.layout_row, parent, false);
+                //grabs all of the views
+                //ImageView image = (ImageView) convertView.findViewById(R.id.list_image_icon);
+                TextView title = (TextView) convertView.findViewById(R.id.title);
+                TextView description = (TextView) convertView.findViewById(R.id.dis);
+                //sets the views
+                Quiz topic = (Quiz) getItem(position);
+                title.setText(topic.getTitle());
+                description.setText(topic.getDescription());
+
+               // image.setImageResource(topic.getIcon());
+            }
+            return convertView;
+
+        }
     }
 }
