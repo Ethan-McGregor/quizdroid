@@ -11,16 +11,11 @@ import android.widget.Button;
 
 public class OverviewQuiz extends AppCompatActivity {
     boolean overviewQuizFragOn = false;
-    boolean takeQuizFragOn = false;
-    boolean answerFragOn = false;
     private Fragment fragToDisplay = null;
     private int count;
    private String dis;
-    private String answer;
-    private String correctAnswer;
     private boolean back;
     private int questionCount;
-    private boolean quizDone = true;
     private int numCorrect;
     private  Button btnFragment;
     TakeQuizFrag tq = new TakeQuizFrag();
@@ -76,8 +71,6 @@ public class OverviewQuiz extends AppCompatActivity {
                 if(questionCount < count){
                     btnFragment.setText("Next Question");
                     Bundle args = new Bundle();
-                    args.putString("answer", answer);
-
                     args.putString("question", temp.getQuestions().get(questionCount).getQuestion());
                     args.putString("one", temp.getQuestions().get(questionCount).getFakeAnswer1());
                     args.putString("two", temp.getQuestions().get(questionCount).getFakeAnswer2());

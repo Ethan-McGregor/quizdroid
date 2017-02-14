@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String topicName = parent.getItemAtPosition(position).toString();
                 Quiz topic = lists.get(position);
                 Intent topicOverview = new Intent(MainActivity.this, OverviewQuiz.class);
                 topicOverview.putExtra("topic", topic);
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity  {
                 ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
                 TextView title = (TextView) convertView.findViewById(R.id.title);
                 TextView description = (TextView) convertView.findViewById(R.id.dis);
+                
                 //sets the views
                 Quiz topic = (Quiz) getItem(position);
                 title.setText(topic.getTitle());

@@ -14,8 +14,6 @@ import java.util.List;
 public class Quiz implements Serializable {
 
     private String title;
-    private String shortDis;
-    private String longDis;
     private String description;
     private int questionCount;
     private int icon;

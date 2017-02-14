@@ -1,11 +1,9 @@
 package quizdroid.ethanm4.washington.edu.quizdroid;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,6 @@ public class TakeQuizFrag extends Fragment {
     private OnFragmentInteractionListener mListener;
     private String answer;
     private String correctAnswer;
-    private String question;
-    private String one;
-    private String two;
-    private String three;
     private int rightOrWrong;
     public TakeQuizFrag() {
     }

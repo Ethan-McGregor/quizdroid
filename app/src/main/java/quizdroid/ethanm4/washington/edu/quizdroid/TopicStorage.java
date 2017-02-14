@@ -1,17 +1,7 @@
 package quizdroid.ethanm4.washington.edu.quizdroid;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.util.Log;
-import android.widget.ImageView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static quizdroid.ethanm4.washington.edu.quizdroid.R.id.image;
 
 /**
  * Created by Ethan on 2/13/2017.
