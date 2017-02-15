@@ -60,7 +60,7 @@ public TopicStorage(){
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         String url;
-        url = prefs.getString("json_url", "https://tednewardsandbox.site44.com/questions.json");
+        url = prefs.getString("json_url", "https://api.myjson.com/bins/za8vh");
         if (url == "") { // if blank in preferences, reset to default
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("json_url", "https://tednewardsandbox.site44.com/questions.json");
