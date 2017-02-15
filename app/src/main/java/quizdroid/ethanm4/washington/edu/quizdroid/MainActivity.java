@@ -1,9 +1,12 @@
 package quizdroid.ethanm4.washington.edu.quizdroid;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +16,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity  {
     protected QuizApp app;
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         app = (QuizApp)getApplication();
 
         lists = app.getRepo();
@@ -35,7 +42,7 @@ public class MainActivity extends AppCompatActivity  {
         for(int i = 0; i < lists.size(); i++){
             Log.v("HERE", i + "");
         }
-
+        new GetTopics().execute();
         MyCustomAdapter adapter = new MyCustomAdapter();
         topics.setAdapter(adapter);
         AdapterView.OnItemClickListener topicClickListener = new AdapterView.OnItemClickListener() {
@@ -63,6 +70,17 @@ public class MainActivity extends AppCompatActivity  {
             mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
+
+
+
+
+
+
+
+
+
+
+
         @Override
         public int getCount() {
             return topics.size();
@@ -86,7 +104,7 @@ public class MainActivity extends AppCompatActivity  {
                 ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
                 TextView title = (TextView) convertView.findViewById(R.id.title);
                 TextView description = (TextView) convertView.findViewById(R.id.dis);
-                
+
                 //sets the views
                 Quiz topic = (Quiz) getItem(position);
                 title.setText(topic.getTitle());
@@ -98,4 +116,16 @@ public class MainActivity extends AppCompatActivity  {
 
         }
     }
+    class GetTopics extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // let repository fetch JSON topics in the background
+            ((QuizApp) getApplication()).initializeRepo(MainActivity.this);
+            return null;
+
+        }
+
+    }
+
 }

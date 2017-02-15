@@ -1,6 +1,12 @@
 package quizdroid.ethanm4.washington.edu.quizdroid;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -10,17 +16,19 @@ import java.util.ArrayList;
 public class TopicStorage implements TopicRepository{
 
     ArrayList<Quiz> list = new ArrayList<Quiz>();
+    private String url;
+    private List<Quiz> topics = new ArrayList<>();
 
 public TopicStorage(){
     createTopics();
 }
 
 
+
     public void createTopics() {
         int b= android.R.drawable.ic_dialog_email;
         int c= android.R.drawable.ic_btn_speak_now;
         int d= android.R.drawable.ic_input_add;
-
 
         Question q = new Question("This is a test","one","two","three","four", 4);
         Quiz one = new Quiz("Math","This is a math test!",b);
@@ -34,6 +42,10 @@ public TopicStorage(){
         list.add(one);
         list.add(two);
         list.add(three);
+        GetJSON data = new GetJSON();
+        String questions = data.makeServiceCall("https://tednewardsandbox.site44.com/questions.json");
+        System.out.println(questions);
+        Log.v("here","HEEEEE");
     }
 
 
