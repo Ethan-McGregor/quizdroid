@@ -20,7 +20,7 @@ import java.util.List;
 
 public class TopicStorage implements TopicRepository{
 
-    ArrayList<Quiz> list;
+    private ArrayList<Quiz> list;
     private String url;
     private List<Quiz> topics = new ArrayList<>();
     private  String json;
@@ -32,26 +32,6 @@ public TopicStorage(){
 
 
     public void createTopics() {
-//        int b= android.R.drawable.ic_dialog_email;
-//        int c= android.R.drawable.ic_btn_speak_now;
-//        int d= android.R.drawable.ic_input_add;
-//
-//        Question q = new Question("This is a test","one","two","three","four", 4);
-//        Quiz one = new Quiz("Math","This is a math test!",b);
-//        one.addQuestion(q);
-//        one.addQuestion(q);
-//        one.addQuestion(q);
-//        Quiz two = new Quiz("Superheros","how well do you know them?",c);
-//        two.addQuestion(q);
-//        Quiz three = new Quiz("physics","like math but harder",d);
-//        three.addQuestion(q);
-//        list.add(one);
-//        list.add(two);
-//        list.add(three);
-//        GetJSON data = new GetJSON();
-//        String questions = data.makeServiceCall("https://tednewardsandbox.site44.com/questions.json");
-//        System.out.println(questions);
-//        Log.v("here","HEEEEE");
         list =  new ArrayList<Quiz>();
     }
 

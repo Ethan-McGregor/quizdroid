@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,12 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new GetTopics().execute();
+
+            new GetTopics().execute();
 
 
-            lists = new ArrayList<Quiz>();
+
+//        lists = new ArrayList<Quiz>();
 //            try {
 //                synchronized (this) {
 //                    wait(1000);
@@ -41,37 +42,29 @@ public class MainActivity extends AppCompatActivity  {
 //
 //                e.printStackTrace();
 //            }
+        app = (QuizApp) getApplication();
+//        lists = app.getRepo();
+//        final List<Quiz> lists = ((QuizApp) getApplication()).getRepository().getQuizes();
+//
+//        ListView topics = (ListView) findViewById(R.id.lin_view);
+//        MyCustomAdapter adapter = new MyCustomAdapter();
+//        topics.setAdapter(adapter);
+//        displayed = true;
+//        Log.v("GZOT","HERRRR");
+//        AdapterView.OnItemClickListener topicClickListener = new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.v("GZOT","HERRRR");
+//                Quiz topic = lists.get(position);
+//                Intent topicOverview = new Intent(MainActivity.this, OverviewQuiz.class);
+//                topicOverview.putExtra("topic", topic);
+//                if (topicOverview.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(topicOverview);
+//                }
+//            }
+//        };
 
-            app = (QuizApp) getApplication();
-            Log.v("What was First?", "THIS");
-
-
-            ListView topics = (ListView) findViewById(R.id.lin_view);
-
-            for (int i = 0; i < lists.size(); i++) {
-                Log.v("HERE", i + "");
-            }
-
-
-
-            lists = app.getRepo();
-
-            MyCustomAdapter adapter = new MyCustomAdapter();
-            topics.setAdapter(adapter);
-            displayed = true;
-            AdapterView.OnItemClickListener topicClickListener = new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Quiz topic = lists.get(position);
-                    Intent topicOverview = new Intent(MainActivity.this, OverviewQuiz.class);
-                    topicOverview.putExtra("topic", topic);
-                    if (topicOverview.resolveActivity(getPackageManager()) != null) {
-                        startActivity(topicOverview);
-                    }
-                }
-            };
-            topics.setOnItemClickListener(topicClickListener);
 
     }
 
@@ -114,7 +107,7 @@ public class MainActivity extends AppCompatActivity  {
                 title.setText(topic.getTitle());
                 description.setText(topic.getDescription());
 
-               image.setImageResource(topic.getIcon());
+                image.setImageResource(topic.getIcon());
             }
             return convertView;
 
@@ -124,15 +117,10 @@ public class MainActivity extends AppCompatActivity  {
         protected void onPreExecute() {
 
             super.onPreExecute();
-
             // Showing progress dialog
-
             pDialog = new ProgressDialog(MainActivity.this);
-
             pDialog.setMessage("Fetching topics...");
-
             pDialog.setCancelable(false);
-
             pDialog.show();
 
         }
@@ -155,112 +143,31 @@ public class MainActivity extends AppCompatActivity  {
                 pDialog.dismiss();
 
 
-
             // put parsed JSON into RecyclerView
 
-            final List<Quiz> topics = ((QuizApp) getApplication()).getRepository().getQuizes();
 
-            // instantiate RecyclerView
-            mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            mRecyclerView.setAdapter(new RecyclerView.Adapter<TopicViewHolder>() {
+            lists = app.getRepo();
 
-                @Override
-                public TopicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    View v = LayoutInflater.from(parent.getContext()).inflate(
-                            R.layout.topic_row,
-                            parent,
-                            false);
-                    return new TopicViewHolder(v);
-                }
+            ListView topics = (ListView) findViewById(R.id.lin_view);
 
+            MyCustomAdapter adapter = new MyCustomAdapter();
+            topics.setAdapter(adapter);
+            displayed = true;
+
+            AdapterView.OnItemClickListener topicClickListener = new AdapterView.OnItemClickListener() {
 
                 @Override
-                public void onBindViewHolder(TopicViewHolder vh, int position) {
-
-                    // get TextViews and replace with the title and short description
-                    TextView tv = (TextView) vh.itemView.findViewById(R.id.text1);
-                    tv.setText(topics.get(position).getTitle());
-                    tv.setCompoundDrawablesWithIntrinsicBounds(topics.get(position).getIcon(), 0, 0, 0);
-                    tv.setCompoundDrawablePadding(12);
-                    tv = (TextView) vh.itemView.findViewById(R.id.text2);
-                    tv.setText(topics.get(position).getShortDesc());
-
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Quiz topic = lists.get(position);
+                    Intent topicOverview = new Intent(MainActivity.this, OverviewQuiz.class);
+                    topicOverview.putExtra("topic", topic);
+                    if (topicOverview.resolveActivity(getPackageManager()) != null) {
+                        startActivity(topicOverview);
+                    }
                 }
+            };
+            topics.setOnItemClickListener(topicClickListener);
 
-
-                @Override
-
-                public int getItemCount() {
-
-                    return topics.size();
-                }
-            });
         }
     }
-
-    private class TopicViewHolder
-
-            extends RecyclerView.ViewHolder
-
-            implements View.OnClickListener {
-
-
-
-        public TopicViewHolder(View v) {
-
-            super(v);
-
-            v.setOnClickListener(this);
-
-        }
-
-
-
-        @Override
-
-        public void onClick(View v) {
-
-            Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-
-            intent.putExtra(EXTRA_TOPIC, getAdapterPosition());
-
-            startActivity(intent);
-
-        }
-
-    }
-
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_preferences:
-
-                // go to preferences activity
-
-                startActivity(new Intent(getApplicationContext(), PreferencesActivity.class));
-
-                return true;
-
-
-
-
-
-            default:
-
-                // If we got here, the user's action was not recognized.
-
-                // Invoke the superclass to handle it.
-
-                return super.onOptionsItemSelected(item);
-
-
-
-        }
-
-    }
-
 }
