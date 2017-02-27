@@ -2,11 +2,14 @@ package quizdroid.ethanm4.washington.edu.quizdroid;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,17 +37,42 @@ public class MainActivity extends AppCompatActivity  {
             new GetTopics().execute();
         app = (QuizApp) getApplication();
         isNetworkAvailable();
-    }
+
+        //Creates popUp if user has airplaneMode on
+        if(isAirplaneModeOn(this)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage(R.string.title)
+                    .setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+                    startActivity(intent);
+
+                }
+                })
+           .setNegativeButton(R.string.nope, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                   }
+               });
+             builder.create().show();
+           }
+        }
+
+
+    //lets user know if not connected to the internet on startup
     private void isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         boolean on = activeNetworkInfo != null && activeNetworkInfo.isConnected();
         if(!on){
-            Toast.makeText(this,"YOU ARE NOT CONNECTED TO THE INTERNET",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"YOU ARE NOT CONNECTED TO THE INTERNET",Toast.LENGTH_LONG);
         }
 
-       
+
+    }
+    private static boolean isAirplaneModeOn(Context context) {
+        return Settings.System.getInt(context.getContentResolver(),Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
     private class MyCustomAdapter extends BaseAdapter {
 
