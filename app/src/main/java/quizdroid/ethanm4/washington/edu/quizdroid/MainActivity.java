@@ -3,6 +3,8 @@ package quizdroid.ethanm4.washington.edu.quizdroid;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,45 +32,20 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
             new GetTopics().execute();
-
-
-
-//        lists = new ArrayList<Quiz>();
-//            try {
-//                synchronized (this) {
-//                    wait(1000);
-//                }
-//            } catch (InterruptedException e) {
-//                // TODO Auto-generated catch block
-//
-//                e.printStackTrace();
-//            }
         app = (QuizApp) getApplication();
-//        lists = app.getRepo();
-//        final List<Quiz> lists = ((QuizApp) getApplication()).getRepository().getQuizes();
-//
-//        ListView topics = (ListView) findViewById(R.id.lin_view);
-//        MyCustomAdapter adapter = new MyCustomAdapter();
-//        topics.setAdapter(adapter);
-//        displayed = true;
-//        Log.v("GZOT","HERRRR");
-//        AdapterView.OnItemClickListener topicClickListener = new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.v("GZOT","HERRRR");
-//                Quiz topic = lists.get(position);
-//                Intent topicOverview = new Intent(MainActivity.this, OverviewQuiz.class);
-//                topicOverview.putExtra("topic", topic);
-//                if (topicOverview.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(topicOverview);
-//                }
-//            }
-//        };
-
-
+        isNetworkAvailable();
     }
+    private void isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean on = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if(!on){
+            Toast.makeText(this,"YOU ARE NOT CONNECTED TO THE INTERNET",Toast.LENGTH_SHORT);
+        }
 
+       
+    }
     private class MyCustomAdapter extends BaseAdapter {
 
         private List<Quiz> topics = lists;
@@ -76,7 +54,6 @@ public class MainActivity extends AppCompatActivity  {
         public MyCustomAdapter() {
             mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-
 
         @Override
         public int getCount() {
@@ -102,7 +79,6 @@ public class MainActivity extends AppCompatActivity  {
                 TextView title = (TextView) convertView.findViewById(R.id.title);
                 TextView description = (TextView) convertView.findViewById(R.id.dis);
 
-                //sets the views
                 Quiz topic = (Quiz) getItem(position);
                 title.setText(topic.getTitle());
                 description.setText(topic.getDescription());
@@ -110,14 +86,13 @@ public class MainActivity extends AppCompatActivity  {
                 image.setImageResource(topic.getIcon());
             }
             return convertView;
-
         }
     }
     class GetTopics extends AsyncTask<Void, Void, Void> {
         protected void onPreExecute() {
 
             super.onPreExecute();
-            // Showing progress dialog
+
             pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Fetching topics...");
             pDialog.setCancelable(false);
@@ -128,7 +103,7 @@ public class MainActivity extends AppCompatActivity  {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            // let repository fetch JSON topics in the background
+
             ((QuizApp) getApplication()).getRepository().initializeRepo(MainActivity.this);
             return null;
 
@@ -138,14 +113,10 @@ public class MainActivity extends AppCompatActivity  {
         protected void onPostExecute(Void result) {
 
             super.onPostExecute(result);
-            // Dismiss the progress dialog
+
             if (pDialog.isShowing())
                 pDialog.dismiss();
-
-
-            // put parsed JSON into RecyclerView
-
-
+            lists = null;
             lists = app.getRepo();
 
             ListView topics = (ListView) findViewById(R.id.lin_view);

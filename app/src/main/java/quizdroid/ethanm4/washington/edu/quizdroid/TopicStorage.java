@@ -30,11 +30,9 @@ public TopicStorage(){
 }
 
 
-
     public void createTopics() {
         list =  new ArrayList<Quiz>();
     }
-
 
 
     public ArrayList<Quiz> getQuizes() {
@@ -47,12 +45,11 @@ public TopicStorage(){
 
     }
     public void updateTopic(Quiz t, Question q) {
-//        int orig = topics.indexOf(original);
-//        topics.set(orig, updated);
+
     }
 
     public void deleteTopic(Quiz T) {
-//        topics.remove(T);
+
     }
 
 
@@ -61,7 +58,7 @@ public TopicStorage(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         String url;
         url = prefs.getString("json_url", "https://api.myjson.com/bins/za8vh");
-        if (url == "") { // if blank in preferences, reset to default
+        if (url == "") {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("json_url", "https://tednewardsandbox.site44.com/questions.json");
             editor.commit();
@@ -75,7 +72,6 @@ public TopicStorage(){
 
         Log.e("EH", "Response from url: " + jsonStr);
         json = jsonStr;
-
 
         if (jsonStr != null) {
 
@@ -138,15 +134,6 @@ public TopicStorage(){
                 }
 
             });
-
-
         }
-
-
-    }
-    public List<Quiz> getAllTopics() {
-
-        return list;
-
     }
     }

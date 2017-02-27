@@ -4,14 +4,10 @@ package quizdroid.ethanm4.washington.edu.quizdroid;
  * Created by Ethan on 2/14/2017.
  */
 
-import android.os.Environment;
 import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,19 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import android.util.JsonReader;
 
-import java.io.FileInputStream;
 
-import java.io.FileNotFoundException;
-
-import java.io.IOException;
-
-import java.io.InputStreamReader;
 public class GetJSON {
 
             private static final String TAG = GetJSON.class.getSimpleName();
-            private JsonReader jsonReader;
 
     public GetJSON() {
     }
